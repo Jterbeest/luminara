@@ -1,4 +1,4 @@
-var dataSet, addData, nodesIndex, socket, dataSet, addToDataSet, colors, stopDrawing, antiFloodTimer;
+var dataSet, addData, nodesIndex, socket, dataSet, colors, stopDrawing, antiFloodTimer;
 
 stopDrawing = false;
 
@@ -6,7 +6,7 @@ stopDrawing = false;
 colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"]; // alternatively colorbrewer.YlGnBu[9]
 
 
-var margin = { top: 120, right: 0, bottom: 50, left: 120 };
+var margin = { top: 120, right: 0, bottom: 100, left: 120 };
 var width = 1000 - margin.left - margin.right + 5;
 var height = 700 - margin.top - margin.bottom + 5;
 var buckets = 9;
@@ -91,7 +91,7 @@ legend.enter().append("g")
 
 legend.append("rect")
     .attr("x", function(d, i) { return legendElementWidth * i; })
-    .attr("y", height + 20)
+    .attr("y", height + 40)
     .attr("width", 40)
     .attr("height", 10)
     .style("fill", function(d, i) { return colors[i]; });
@@ -99,9 +99,9 @@ legend.append("rect")
 legend
     .append("text")
     .attr("class", "mono")
-    .text(function(d, i) { return "≥ " + Math.round(i); })
+    .text(function(d, i) { return "≥ " + Math.round(i * 5); })
     .attr("x", function(d, i) { return legendElementWidth * i; })
-    .attr("y", height + 40);
+    .attr("y", height + 60);
 
 legend.exit().remove();
 
@@ -118,7 +118,7 @@ function draw(data){
 
     var axis = getAxis();
 
-    gridSize = Math.ceil(Math.min(height, width) / (Math.max(axis.xAxis.length, axis.yAxis.length)));
+    gridSize = Math.ceil(Math.min((width/axis.xAxis.length), (height/axis.yAxis.length)));
 
     var dayLabels = svg
         .selectAll(".dayLabel")
@@ -181,7 +181,9 @@ function draw(data){
     cards
         .transition()
         .duration(1000)
-        .style("fill", function(d) { return colorScale(d.value); });
+        .style("fill", function(d, i) {
+            return colors[Math.floor(d.value/5)];
+        });
 
     cards.select("title").text(function(d) { return d.value; });
 
@@ -220,13 +222,8 @@ if (window.msm) {
             passThroughPrefix: lans[n]
         };
 
-
         socket.emit("atlas_subscribe", subscriptionVector);
 
-        setTimeout(function(){
-            socket.emit("atlas_unsubscribe", subscriptionVector);
-
-        }, 10000);
     }
 
 } else {

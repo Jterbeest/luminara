@@ -121,13 +121,12 @@ var matrix = function(where, type, params){
 
         switch (type) {
             case "msm":
-                subscriptionVector = {
-                    stream_type: "result",
-                    sendBacklog: true
-                };
-
                 for (var n = 0, length = params.msm.length; n < length; n++) {
-                    subscriptionVector.msm = params.msm[n];
+                    subscriptionVector = {
+                        stream_type: "result",
+                        sendBacklog: true,
+                        msm: params.msm[n]
+                    };
                     socket.emit("atlas_subscribe", subscriptionVector);
                 }
                 break;

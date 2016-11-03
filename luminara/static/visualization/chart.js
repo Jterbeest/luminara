@@ -1,6 +1,6 @@
 var matrix = function(where, type, params){
     var dataSet, addData, socket, colors, antiFloodTimer, margin, width, height, buckets, getData, getAxis,
-        legendElementWidth, init, drawAntiFlood, draw, svg, legend, subscriptionVector;
+        legendElementWidth, init, drawAntiFlood, draw, svg, legend, subscriptionVector, subscribe;
 
 //----- CONFIG -----//
     colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"]; // alternatively colorbrewer.YlGnBu[9]
@@ -119,6 +119,10 @@ var matrix = function(where, type, params){
             }
         });
 
+        socket.on("connect", subscribe);
+    };
+
+    subscribe = function(){
         switch (type) {
             case "msm":
                 for (var n = 0, length = params.msm.length; n < length; n++) {
@@ -148,6 +152,7 @@ var matrix = function(where, type, params){
                 alert("define something to listen on the html file");
 
         }
+
     };
 
     drawAntiFlood = function(data){

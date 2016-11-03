@@ -5,23 +5,16 @@
     <title>Title</title>
     <script src="https://atlas-stream.ripe.net/socket.io.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
     <script src="//d3js.org/d3.v3.min.js"></script>
+    <script src="chart.js"></script>
 
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <script>
-        var lans = [
-            "193.201.28.0/25",
-            "193.201.29.0/25",
-            "80.249.208.0/21",
-            // "2001:7f8:1::/64"
-        ];
+        new matrix("#chart", "msm", { prefixes: ["193.201.28.0/25", "193.201.29.0/25", "80.249.208.0/21"] });
     </script>
 </head>
 <body>
 <div id="chart"></div>
-
 </body>
-<script src="chart.js"></script>
 </html>
